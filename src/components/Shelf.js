@@ -34,4 +34,4 @@ class Shelf extends Component {
   }
 }
 
-export const SHELF = Shelf
+export default Shelf

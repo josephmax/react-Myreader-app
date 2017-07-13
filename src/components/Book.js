@@ -25,7 +25,7 @@ class Book extends Component {
             }}></div>
             <div className="book-shelf-changer">
               <select value={shelf || 'none'} onChange={e => update(book, e.target.value).then(onUpdate && onUpdate())}>
-                <option value="none" disabled>Move to...</option>
+                <option value="" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
@@ -41,4 +41,4 @@ class Book extends Component {
 	}
 }
 
-export const BOOK = Book
+export default Book

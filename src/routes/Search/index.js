@@ -2,26 +2,43 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Book } from '../../components'
 import { search } from '../../BooksAPI'
+import PropTypes from 'prop-types'
 import _ from 'lodash'
 
-// const debouncedSearch = _.debounce(search, 1000)
-
 class Search extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      searchResults: []
-    }
-    this.querySearch = _.debounce(this.querySearch.bind(this), 1000)
+  PropTypes = {
+    updateBook: PropTypes.func.isRequired,
+    data: PropTypes.array
   }
-  querySearch(q) {
+  defaultProps = {
+    data: []
+  }
+  state = {
+    searchResults: []
+  }
+
+  querySearch = _.debounce(q => {
+    if (!q) return
     search(q, 30).then(res => {
-      console.log(res)
       this.setState({
         searchResults: res.error ? [] : res
       })
     })
+  }, 500)
+
+  isBookOnShelf = book => {
+    const { data } = this.props
+    let shelf = 'none'
+    data.forEach(item => {
+      if (item.id === book.id) {
+        shelf = item.shelf
+        return
+      }
+    })
+    return shelf
   }
+
+  updateBook = _.debounce(this.props.updateBook, 500)
 
   render() {
     const { searchResults } = this.state
@@ -38,7 +55,8 @@ class Search extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {searchResults.length > 0 ? searchResults.map(item => (
-              <Book book={item} key={item.id} shelf={item.shelf}/>
+              <Book book={item} key={item.id} 
+              onUpdate={this.updateBook} shelf={this.isBookOnShelf(item)}/>
             )) : 'No Results'}
           </ol>
         </div>

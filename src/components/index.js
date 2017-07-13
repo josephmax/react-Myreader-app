@@ -1,2 +1,2 @@
-export { BOOK as Book} from './Book'
-export { SHELF as Shelf} from './Shelf'
+export { default as Book} from './Book'
+export { default as Shelf} from './Shelf'
