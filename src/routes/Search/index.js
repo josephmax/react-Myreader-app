@@ -38,7 +38,7 @@ class Search extends Component {
     return shelf
   }
 
-  updateBook = _.debounce(this.props.updateBook, 500)
+  updateBook = _.throttle(this.props.updateBook, 500)
 
   render() {
     const { searchResults } = this.state
